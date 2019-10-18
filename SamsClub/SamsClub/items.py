@@ -8,7 +8,10 @@
 import scrapy
 
 
-class SamsclubItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class Product(scrapy.Item):
+    title = scrapy.Field()
+    price = scrapy.Field()
+    images = scrapy.Field()
+    image_urls = scrapy.Field()
+    product_id = scrapy.Field()
+    description = scrapy.Field()
