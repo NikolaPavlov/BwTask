@@ -19,7 +19,7 @@ NEWSPIDER_MODULE = 'SamsClub.spiders'
 #USER_AGENT = 'SamsClub (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -96,7 +96,7 @@ DEFAULT_REQUEST_HEADERS = {
 ### MANUALY ADDED ###
 
 # Look like human
-# USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"
+USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"
 
 # Splash settings
 DOWNLOADER_MIDDLEWARES = {
@@ -112,5 +112,6 @@ HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 
 
 # Image downloads settings
-ITEM_PIPELINES = {'scrapy.pipelines.images.ImagesPipeline': 1}
+# ITEM_PIPELINES = {'scrapy.pipelines.images.ImagesPipeline': 1}
+ITEM_PIPELINES = {'SamsClub.pipelines.SamsclubPipeline': 1}
 IMAGES_STORE = '/home/gogo/Desktop/temp/'

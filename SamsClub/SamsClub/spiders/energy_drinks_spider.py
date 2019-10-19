@@ -2,11 +2,12 @@ import scrapy
 from scrapy_splash import SplashRequest
 
 from ..items import Product
-from ..text_formaters import format_price, format_id
+from ..text_formaters import format_price
 
 
 MAIN_URL = 'https://www.samsclub.com'
 SPLASH_WAIT_TIME = 2
+NOT_AVAILABLE_MSG = 'not available'
 
 class EnergyDrinksSpider(scrapy.Spider):
     name = 'energy_drinks_spider'
@@ -34,20 +35,19 @@ class EnergyDrinksSpider(scrapy.Spider):
             yield SplashRequest(url=next_page_url, callback=self.parse)
 
     def parse_product(self, response):
-        product_title = response.css('title::text').get()
-        print('---> start scraping product: ' + product_title)
+        product_title = response.css('title::text').get() or NOT_AVAILABLE_MSG
 
         product_price_span = response.css('span.Price-group::attr(title)').get()
-        product_price_formated = format_price(product_price_span)
+        product_price_formated = format_price(product_price_span) or NOT_AVAILABLE_MSG
 
         product_image_urls = []
         for img_url in response.css('.sc-image-viewer-thumb::attr(src)').getall():
-            product_image_urls.append(img_url.replace('DT_Thumbnail$', ''))
+            product_image_urls.append(img_url.replace('$DT_Thumbnail$', ''))
 
         product_id = response.css('.sc-product-header-item-number::text').re(r'Item # (.*)')
-        product_id = format_id(product_id[0])
+        product_id = int(product_id[0]) or NOT_AVAILABLE_MSG
 
-        product_description = response.css('.sc-full-description-long p::text').get()
+        product_description = response.css('.sc-full-description-long p::text').get() or NOT_AVAILABLE_MSG
 
         product = Product()
         product['title'] = product_title
