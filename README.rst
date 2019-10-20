@@ -3,8 +3,7 @@ The Task
 ########
 
 
-The task:
-=========
+
 
 Build web spider using Python with the help of Scrapy. The spider should pull
 all products from pre-defined category of the site.
@@ -30,6 +29,10 @@ Requirements
     * Clean the price from letters and symbols and format it to 0.00 format
     * Get all the products from the category
 
+
+-----
+
+
 Assumptions
 ~~~~~~~~~~~
 It's not clear if you want the urls of Product's Images or the images
@@ -42,8 +45,31 @@ It's in 'Select club' and the price for this items isn't available. I assume we
 want all available info, and if the price isn't available we're going to put
 'not available'.
 
+-----
+
 ###########
 My Solution
 ###########
 
-I couldn't find solution of the task with only Scrapy. 
+My solution using only Scrapy is available on OnlyScrapy branch, but it
+downloads only one image per product. In the master branch I'm using
+scrapy-splash which allows me to get all the images from the product's gallery
+with expense of loosing speed waiting for the JS to load.
+
+How To Run
+==========
+
+1. Git clone the repo
+2. cd REPO_DIR and install the dependencies (pipenv install)
+3. Setup splash
+    * docker pull scrapinghub/splash
+    * docker run -it -p 8050:8050 scrapinghub/splash
+4. Activate the virutalenv (pipenv shell)
+5. cd SamsClub (project folder)
+6. Setup REPO_DIR/SamsClub/SamsClub/user_settings.py You should change:
+    - category to scrape (put category url from the website)
+    - next page url (url received when you click next in the selected category)
+    - images store location (where to store downloaded images)
+7. Run:
+   scrapy crawl category_bot -L INFO -o output.jl
+8. Analyse the results in the newley created JSON file output.jl

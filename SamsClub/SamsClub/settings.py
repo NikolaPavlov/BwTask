@@ -1,5 +1,6 @@
 import SamsClub.user_settings as user_settings
 
+
 # -*- coding: utf-8 -*-
 
 # Scrapy settings for SamsClub project

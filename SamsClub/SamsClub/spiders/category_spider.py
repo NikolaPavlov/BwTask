@@ -1,5 +1,6 @@
-import scrapy
 import re
+import scrapy
+
 from scrapy_splash import SplashRequest
 
 from ..items import Product
@@ -7,12 +8,12 @@ from ..text_formaters import format_price
 import SamsClub.user_settings as user_settings
 
 
-
-class EnergyDrinksSpider(scrapy.Spider):
-    name = 'energy_drinks_spider'
+class CategorySpider(scrapy.Spider):
+    name = 'category_spider'
     allowed_domains = ['www.samsclub.com']
     start_urls = [user_settings.CATEGORY_TO_SCRAP_URL]
 
+    # increase this counter by 48 in URL to go to the next page
     products_offset = 0
 
     def parse(self, response):
@@ -27,31 +28,36 @@ class EnergyDrinksSpider(scrapy.Spider):
         # follow pagination logic
         next_button = response.css('li.sc-pagination-next')
         if next_button:
-            # next_page_url = 'https://www.samsclub.com/b/energy-drinks/1504?clubId=undefined&offset={0}&searchCategoryId=1504&selectedFilter=all&sortKey=relevance&sortOrder=1'
             next_page_url = re.sub(r'offset=(\d+)', 'offset={0}', user_settings.NEXT_PAGE_URL)
             next_page_url = next_page_url.format(str(self.products_offset))
             self.products_offset += 48
             yield SplashRequest(url=next_page_url, callback=self.parse)
 
     def parse_product(self, response):
-        product_title = response.css('title::text').get() or \
+        # get product title
+        product_title = response.css('.sc-product-header-title-container::text').get() or \
             user_settings.NOT_AVAILABLE_MSG
 
-        product_price_span = response.css('span.Price-group::attr(title)').get()
-        product_price_formated = format_price(product_price_span) or \
+        # get product price
+        product_price_string = response.xpath("//div[@class='sc-channel-container-channels']/div/div[1]/div/div/span/span/span[1]/text()").extract_first()
+        product_price_formated = format_price(product_price_string) or \
             user_settings.NOT_AVAILABLE_MSG
 
+        # get product images from the gallery
         product_image_urls = []
         for img_url in response.css('.sc-image-viewer-thumb::attr(src)').getall():
             product_image_urls.append(img_url.replace('$DT_Thumbnail$', ''))
 
+        # get product id
         product_id = response.css('.sc-product-header-item-number::text').re(r'Item # (.*)')
         try:
             product_id_int = int(product_id[0])
         except:
             product_id = user_settings.NOT_AVAILABLE_MSG
 
+        # get product description
         product_description = response.css('.sc-full-description-long p::text').get() or \
+            response.css('.sc-full-description-long::text').get() or \
             user_settings.NOT_AVAILABLE_MSG
 
         product = Product()
@@ -62,4 +68,4 @@ class EnergyDrinksSpider(scrapy.Spider):
         product['description'] = product_description
 
         yield product
-        self.logger.info('Yield: ' + product['title'])
+        self.logger.info('Scraping ---> ' + product['title'])
