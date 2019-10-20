@@ -1,3 +1,5 @@
+import SamsClub.user_settings as user_settings
+
 # -*- coding: utf-8 -*-
 
 # Scrapy settings for SamsClub project
@@ -112,6 +114,5 @@ HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 
 
 # Image downloads settings
-# ITEM_PIPELINES = {'scrapy.pipelines.images.ImagesPipeline': 1}
-ITEM_PIPELINES = {'SamsClub.pipelines.SamsclubPipeline': 1}
-IMAGES_STORE = '/home/gogo/Desktop/temp/'
+ITEM_PIPELINES = {'SamsClub.pipelines.ImgPipeline': 1}
+IMAGES_STORE = user_settings.IMAGES_STORE
