@@ -34,20 +34,6 @@ class CategorySpider(scrapy.Spider):
             yield SplashRequest(url=next_page_url, callback=self.parse)
 
     def parse_product(self, response):
-        # get product title
-        product_title = response.css('.sc-product-header-title-container::text').get() or \
-            user_settings.NOT_AVAILABLE_MSG
-
-        # get product price
-        product_price_string = response.xpath("//div[@class='sc-channel-container-channels']/div/div[1]/div/div/span/span/span[1]/text()").extract_first()
-        product_price_formated = format_price(product_price_string) or \
-            user_settings.NOT_AVAILABLE_MSG
-
-        # get product images from the gallery
-        product_image_urls = []
-        for img_url in response.css('.sc-image-viewer-thumb::attr(src)').getall():
-            product_image_urls.append(img_url.replace('$DT_Thumbnail$', ''))
-
         # get product id
         product_id = response.css('.sc-product-header-item-number::text').re(r'Item # (.*)')
         try:
@@ -55,17 +41,34 @@ class CategorySpider(scrapy.Spider):
         except:
             product_id = user_settings.NOT_AVAILABLE_MSG
 
+        # get product title
+        product_title = \
+            response.css('.sc-product-header-title-container::text').get() or \
+            user_settings.NOT_AVAILABLE_MSG
+
+        # get product price
+        product_price_string = \
+            response.xpath("//div[@class='sc-channel-container-channels']/div/div[1]/div/div/span/span/span[1]/text()").extract_first()
+        product_price_formated = format_price(product_price_string) or \
+            user_settings.NOT_AVAILABLE_MSG
+
         # get product description
-        product_description = response.css('.sc-full-description-long p::text').get() or \
+        product_description = \
+            response.css('.sc-full-description-long p::text').get() or \
             response.css('.sc-full-description-long::text').get() or \
             user_settings.NOT_AVAILABLE_MSG
 
+        # get product images from the gallery
+        product_image_urls = []
+        for img_url in response.css('.sc-image-viewer-thumb::attr(src)').getall():
+            product_image_urls.append(img_url.replace('$DT_Thumbnail$', ''))
+
         product = Product()
+        product['product_id'] = product_id_int
         product['title'] = product_title
         product['price'] = product_price_formated
-        product['image_urls'] = product_image_urls
-        product['product_id'] = product_id
         product['description'] = product_description
+        product['image_urls'] = product_image_urls
 
         yield product
         self.logger.info('Scraping ---> ' + product['title'])

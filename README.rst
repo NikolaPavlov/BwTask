@@ -71,5 +71,5 @@ How To Run
     - next page url (url received when you click next in the selected category)
     - images store location (where to store downloaded images)
 7. Run:
-   scrapy crawl category_bot -L INFO -o output.jl
+   scrapy crawl category_spider -L INFO -o output.jl
 8. Analyse the results in the newley created JSON file output.jl
