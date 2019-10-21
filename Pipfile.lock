@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "da53a33b9c96dc9ea24091ff019e47392f29affe8c7d3d510694a9b344e5f72a"
+            "sha256": "9c1714111392ce8ea17366d279395c936632146449e8ba88c5a0b63baa9dcfe5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -238,10 +238,10 @@
         },
         "python-slugify": {
             "hashes": [
-                "sha256:8653d589308c91c67fe5c97a2afda0cfac9492061e69c0db90d1aef68fcd2332"
+                "sha256:a8fc3433821140e8f409a9831d13ae5deccd0b033d4744d94b31fea141bdd84c"
             ],
             "index": "pypi",
-            "version": "==3.0.6"
+            "version": "==4.0.0"
         },
         "queuelib": {
             "hashes": [
@@ -257,14 +257,6 @@
             ],
             "index": "pypi",
             "version": "==1.7.3"
-        },
-        "scrapy-splash": {
-            "hashes": [
-                "sha256:089188b11202813b14b88d3be008641a2b3d36e82fadd4a6c61f0af59b66e7b5",
-                "sha256:71ac958370f8732fec746a25a8235b03a4d3c4c93a59be51aa8e910a08cfe511"
-            ],
-            "index": "pypi",
-            "version": "==0.7.2"
         },
         "service-identity": {
             "hashes": [

@@ -8,7 +8,6 @@ verify_ssl = true
 [packages]
 scrapy = "*"
 python-slugify = "*"
-scrapy-splash = "*"
 pillow = "*"
 
 [requires]
