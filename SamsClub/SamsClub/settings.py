@@ -101,19 +101,6 @@ DEFAULT_REQUEST_HEADERS = {
 # Look like human
 USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"
 
-# Splash settings
-DOWNLOADER_MIDDLEWARES = {
-    'scrapy_splash.SplashCookiesMiddleware': 723,
-    'scrapy_splash.SplashMiddleware': 725,
-    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
-}
-
-SPLASH_URL = 'http://localhost:8050'
-
-DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
-HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
-
-
 # Image downloads settings
 ITEM_PIPELINES = {'SamsClub.pipelines.ImgPipeline': 1}
 IMAGES_STORE = user_settings.IMAGES_STORE

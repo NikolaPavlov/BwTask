@@ -1,8 +1,6 @@
 import re
 import scrapy
 
-from scrapy_splash import SplashRequest
-
 from ..items import Product
 from ..text_formaters import format_price
 import SamsClub.user_settings as user_settings
@@ -21,9 +19,7 @@ class CategorySpider(scrapy.Spider):
 
         for product_link in product_links:
             link = 'https://' + self.allowed_domains[0] + product_link
-            yield SplashRequest(url=link,
-                                callback=self.parse_product,
-                                args={"wait": user_settings.SPLASH_WAIT_TIME})
+            yield scrapy.Request(url=link, callback=self.parse_product)
 
         # follow pagination logic
         next_button = response.css('li.sc-pagination-next')
@@ -31,7 +27,7 @@ class CategorySpider(scrapy.Spider):
             next_page_url = re.sub(r'offset=(\d+)', 'offset={0}', user_settings.NEXT_PAGE_URL)
             next_page_url = next_page_url.format(str(self.products_offset))
             self.products_offset += 48
-            yield SplashRequest(url=next_page_url, callback=self.parse)
+            yield scrapy.Request(url=next_page_url, callback=self.parse)
 
     def parse_product(self, response):
         # get product id
