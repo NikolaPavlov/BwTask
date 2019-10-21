@@ -3,8 +3,6 @@ The Task
 ########
 
 
-
-
 Build web spider using Python with the help of Scrapy. The spider should pull
 all products from pre-defined category of the site.
 
@@ -35,15 +33,8 @@ Requirements
 
 Assumptions
 ~~~~~~~~~~~
-It's not clear if you want the urls of Product's Images or the images
-themselves. I assume we want the images downloaded to our pc.
-
-It's not clear if you want all products from the target category or only the
-available ones. For example this product:
-https://www.samsclub.com/p/red-bull-energy-drink-12-pk-16-oz-cans/prod711948?xid=plp_product_1_46
-It's in 'Select club' and the price for this items isn't available. I assume we
-want all available info, and if the price isn't available we're going to put
-'not available'.
+.. note:: It's not clear if you want the urls of Product's Images or the images
+   themselves. I assume we want the images downloaded to our pc. It's not clear if you want all products from the target category or only the available ones. For example this product: https://www.samsclub.com/p/red-bull-energy-drink-12-pk-16-oz-cans/prod711948?xid=plp_product_1_46 It's in 'Select club' and the price for this items isn't available. I assume we want all available info, and if the price isn't available we're going to put 'not available'.
 
 -----
 
@@ -66,10 +57,22 @@ How To Run
     * docker run -it -p 8050:8050 scrapinghub/splash
 4. Activate the virutalenv (pipenv shell)
 5. cd SamsClub (project folder)
-6. Setup REPO_DIR/SamsClub/SamsClub/user_settings.py You should change:
-    - category to scrape (put category url from the website)
-    - next page url (url received when you click next in the selected category)
-    - images store location (where to store downloaded images)
+6. Setup user_settings if you want to change defaults.
+
+   .. code-block:: bash
+
+    cd REPO_DIR/SamsClub/SamsClub/user_settings.py
+
+.. note:: Settings:
+
+    * category to scrape (put category url from the website)
+    * next page url (url received when you click next in the selected category)
+    * images store location (where to store downloaded images)
+
 7. Run:
-   scrapy crawl category_spider -L INFO -o output.jl
+
+   .. code-block:: bash
+
+       scrapy crawl category_spider -L INFO -o output.jl
+
 8. Analyse the results in the newley created JSON file output.jl
