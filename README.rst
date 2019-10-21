@@ -16,6 +16,7 @@ Stack:
 
 Requirements
 ============
+
     * Scraping target - https://www.samsclub.com
     * Category - Energy Drinks - https://www.samsclub.com/b/energy-drinks/1504
     * Needed information:
@@ -53,17 +54,20 @@ How To Run
 1. Git clone the repo
 2. cd REPO_DIR and install the dependencies (pipenv install)
 3. Setup splash
+
+   .. code-block:: bash
+
     * docker pull scrapinghub/splash
     * docker run -it -p 8050:8050 scrapinghub/splash
 4. Activate the virutalenv (pipenv shell)
 5. cd SamsClub (project folder)
-6. Setup user_settings if you want to change defaults.
+6. Setup *user_settings.py* if you want to change defaults.
 
    .. code-block:: bash
 
     cd REPO_DIR/SamsClub/SamsClub/user_settings.py
 
-.. note:: Settings:
+Settings in *user_settings.py*:
 
     * category to scrape (put category url from the website)
     * next page url (url received when you click next in the selected category)
